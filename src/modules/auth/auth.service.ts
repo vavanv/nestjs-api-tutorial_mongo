@@ -4,9 +4,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 
-import { AuthPayload } from 'src/auth/payload';
-import { IUser } from 'src/user/user.model';
-import { ConfigService } from 'src/config/config.service';
+import { AuthPayload } from 'src/modules/auth/payload';
+import { IUser } from 'src/modules/user/user.model';
+import { ConfigService } from 'src/modules/config/config.service';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +29,7 @@ export class AuthService {
 
       return this.signToken(user);
     } catch (error) {
-      if (error.name === 'MongoError' && error.code === 11000) {
+      if (error.name === 'MongoServerError' && error.code === 11000) {
         throw new ForbiddenException('Email mast be unique');
       }
       throw error;

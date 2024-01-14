@@ -2,15 +2,19 @@ import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as pactum from 'pactum';
 
-import { PrismaService } from '../src/prisma/prisma.service';
-import { AppModule } from '../src/app/app.module';
-import { AuthDto } from 'src/auth/payload';
-import { EditUserDto } from 'src/user/payload';
-import { CreateBookmarkDto, EditBookmarkDto } from 'src/bookmark/payload';
+// import { PrismaService } from '../src/prisma/prisma.service';
+// import { MongooseModule } from '@nestjs/mongoose';
+import { AppModule } from '../src/modules/app/app.module';
+import { AuthPayload } from 'src/modules/auth/payload';
+import { EditUserPayload } from 'src/modules/user/payload';
+import {
+  CreateBookmarkPayload,
+  EditBookmarkPayload,
+} from 'src/modules/bookmark/payload';
 
 describe('App e2e', () => {
   let app: INestApplication;
-  let prismaService: PrismaService;
+  // let prismaService: PrismaService;
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
@@ -25,8 +29,8 @@ describe('App e2e', () => {
     await app.init();
     await app.listen(3333);
 
-    prismaService = app.get(PrismaService);
-    await prismaService.cleanDb();
+    // prismaService = app.get(PrismaService);
+    // await prismaService.cleanDb();
     pactum.request.setBaseUrl('http://localhost:3333');
   });
 
@@ -35,9 +39,11 @@ describe('App e2e', () => {
   });
 
   describe('Auth', () => {
-    const dto: AuthDto = {
+    const payload: AuthPayload = {
       email: 'vladimir.vv@gmail.com',
       password: '123',
+      firstName: 'V',
+      lastName: 'V',
     };
     describe('Signup', () => {
       it('Should Throw if email is not valid', () => {
@@ -45,7 +51,7 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/signup')
           .withBody({
-            ...dto,
+            ...payload,
             email: 'vladimir.vv',
           })
           .expectStatus(400);
@@ -55,7 +61,7 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/signup')
           .withBody({
-            ...dto,
+            ...payload,
             password: '',
           })
           .expectStatus(400);
@@ -67,7 +73,7 @@ describe('App e2e', () => {
         return pactum
           .spec()
           .post('/auth/signup')
-          .withBody(dto)
+          .withBody(payload)
           .expectStatus(201);
       });
     });
@@ -78,7 +84,7 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/signin')
           .withBody({
-            ...dto,
+            ...payload,
             email: 'vladimir.vv',
           })
           .expectStatus(400);
@@ -88,7 +94,7 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/signin')
           .withBody({
-            ...dto,
+            ...payload,
             password: '',
           })
           .expectStatus(400);
@@ -100,7 +106,7 @@ describe('App e2e', () => {
         return pactum
           .spec()
           .post('/auth/signin')
-          .withBody(dto)
+          .withBody(payload)
           .expectStatus(200)
           .stores('access_token', 'access_token');
       });
@@ -120,7 +126,7 @@ describe('App e2e', () => {
     });
     describe('Edit User', () => {
       it('Should Edit User', () => {
-        const dto: EditUserDto = {
+        const dto: EditUserPayload = {
           email: 'vvv@gmail.com',
           firstName: 'Vlad',
         };
@@ -151,7 +157,7 @@ describe('App e2e', () => {
       });
     });
     describe('Create Bookmark', () => {
-      const dto: CreateBookmarkDto = {
+      const payload: CreateBookmarkPayload = {
         title: 'Google',
         link: 'https://google.com',
       };
@@ -162,10 +168,10 @@ describe('App e2e', () => {
           .withHeaders({
             Authorization: 'Bearer $S{access_token}',
           })
-          .withBody(dto)
+          .withBody(payload)
           .expectStatus(201)
-          .expectBodyContains(dto.title)
-          .expectBodyContains(dto.link)
+          .expectBodyContains(payload.title)
+          .expectBodyContains(payload.link)
           .stores('bookmarkId', 'id');
       });
     });
@@ -198,7 +204,7 @@ describe('App e2e', () => {
       });
     });
     describe('Edit Bookmark By Id', () => {
-      const dto: EditBookmarkDto = {
+      const payload: EditBookmarkPayload = {
         title: 'Title Google',
         description: 'Description Google',
       };
@@ -209,13 +215,13 @@ describe('App e2e', () => {
           .withPathParams({
             id: '$S{bookmarkId}',
           })
-          .withBody(dto)
+          .withBody(payload)
           .withHeaders({
             Authorization: 'Bearer $S{access_token}',
           })
           .expectStatus(200)
-          .expectBodyContains(dto.title)
-          .expectBodyContains(dto.description);
+          .expectBodyContains(payload.title)
+          .expectBodyContains(payload.description);
       });
     });
     describe('Delete Bookmark By Id', () => {

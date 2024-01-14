@@ -1,5 +1,6 @@
 import { Schema, Document } from 'mongoose';
-import { IBookmark } from 'src/bookmark/bookmark.model';
+
+import { IBookmark } from 'src/modules/bookmark/bookmark.model';
 
 export interface IUser extends Document {
   readonly _id: Schema.Types.ObjectId;

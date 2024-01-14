@@ -11,9 +11,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { JwtGuard } from 'src/auth/guard';
+import { JwtGuard } from 'src/modules/auth/guard';
+import { GetUser } from 'src/modules/auth/decorator';
+
 import { BookmarkService } from './bookmark.service';
-import { GetUser } from 'src/auth/decorator';
 import { CreateBookmarkPayload, EditBookmarkPayload } from './payload';
 
 @UseGuards(JwtGuard)

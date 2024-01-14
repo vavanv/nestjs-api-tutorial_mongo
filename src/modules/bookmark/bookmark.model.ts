@@ -1,5 +1,6 @@
 import { Schema, Document } from 'mongoose';
-import { IUser } from 'src/user/user.model';
+
+import { IUser } from 'src/modules/user/user.model';
 
 export interface IBookmark extends Document {
   title: string;

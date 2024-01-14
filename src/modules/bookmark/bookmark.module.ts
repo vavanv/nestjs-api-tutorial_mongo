@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+
 import { BookmarkController } from './bookmark.controller';
 import { BookmarkService } from './bookmark.service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Bookmark } from './bookmark.model';
 
 @Module({

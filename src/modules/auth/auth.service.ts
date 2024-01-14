@@ -3,10 +3,10 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 import { AuthPayload } from 'src/modules/auth/payload';
 import { IUser } from 'src/modules/user/user.model';
-import { ConfigService } from 'src/modules/config/config.service';
 
 @Injectable()
 export class AuthService {
@@ -57,7 +57,7 @@ export class AuthService {
       sub: user.id,
       email: user.email,
     };
-    const secret = this.configService.get('JWT_SECRET');
+    const secret = this.configService.get('WEBTOKEN_SECRET_KEY');
     const token = await this.jwtService.signAsync(payload, {
       expiresIn: '15m',
       secret: secret,

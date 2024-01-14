@@ -1,26 +1,20 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
-// import { ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { BookmarkModule } from '../bookmark/bookmark.module';
-import { ConfigModule } from '../config/config.module';
-import { ConfigService } from '../config/config.service';
 
 @Module({
   imports: [
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) =>
-        ({
-          uri: configService.get('DATABASE_URL'),
-        }) as MongooseModuleFactoryOptions,
+      useFactory: () => ({
+        uri: process.env.DATABASE_URL,
+      }),
     }),
-    // ConfigModule.forRoot({
-    //   isGlobal: true,
-    // }),
-    ConfigModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     UserModule,
     BookmarkModule,

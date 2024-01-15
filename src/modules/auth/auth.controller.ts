@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 
-import { AuthPayload } from 'src/modules/auth/payload';
+import { AuthPayload, AuthSigninPayload } from 'src/modules/auth/payload';
 
 import { AuthService } from './auth.service';
 
@@ -15,7 +15,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('signin')
-  signin(@Body() payload: AuthPayload) {
+  signin(@Body() payload: AuthSigninPayload) {
     return this.authService.signin(payload);
   }
 }

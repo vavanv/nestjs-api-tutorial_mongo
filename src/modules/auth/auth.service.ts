@@ -5,7 +5,7 @@ import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
-import { AuthPayload } from 'src/modules/auth/payload';
+import { AuthPayload, AuthSigninPayload } from 'src/modules/auth/payload';
 import { IUser } from 'src/modules/user/user.model';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class AuthService {
     }
   }
 
-  async signin(payload: AuthPayload) {
+  async signin(payload: AuthSigninPayload) {
     const user = await this.userModel.findOne({
       email: payload.email,
     });

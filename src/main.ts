@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './modules/app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+
+import { AppModule } from './modules/app/app.module';
 import {
   SWAGGER_API_NAME,
   SWAGGER_API_DESCRIPTION,
@@ -32,6 +33,11 @@ async function bootstrap() {
       whitelist: true, // remove all properties that are not in the DTO
     }),
   );
+  // app.register(headers);
+  // app.register(fastifyRateLimiter, {
+  //   max: 100,
+  //   timeWindow: 60000,
+  // });
   await app.listen(3333);
 }
 bootstrap();

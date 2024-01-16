@@ -1,24 +1,13 @@
 FROM node:latest
 
-RUN mkdir -p /app
-
-# App directory
 WORKDIR /app
+EXPOSE 3033
 
-# App dependencies
-COPY package.json /app
-RUN npm i
+COPY package.json yarn.lock ./
+RUN touch .env
 
-# Copy app source code
-COPY . /app
+RUN set -x && yarn
 
-# Env setup
-# COPY .env.example /app/.env
+COPY . .
 
-RUN npm run build
-
-#Expose port and begin application
-EXPOSE 9001
-
-# Start the app
-CMD [ "npm", "run", "start:dev"]
+CMD [ "yarn", "start:dev" ]

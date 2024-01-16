@@ -1,31 +1,33 @@
-version: '3'
+version: '3.8'
 services:
-  nest:
-    container_name: nest
+  nest_service:
     build: .
+    container_name: nest_service
     ports:
-      - '9001:9001'
+      - 3000:3333
+    networks:
+      - app-network
     volumes:
-      - .:/app
+      - ./src/:/app/src/
+      - .env/:/app/.env
+    restart: always
+    depends_on:
+      - nest_database
     links:
-      - mongo_nest
-  mongo_nest:
+      - nest_database
+  nest_database:
     image: mongo:latest
-    container_name: mongo_nest
+    container_name: nest_database
     ports:
-      - '27020:27017'
-    environment:
-      MONGO_INITDB_DATABASE: nest
+      - 27037:27017
     volumes:
-      - data-volume:/data/db
-  mongo_nest_test:
-    image: mongo:latest
-    container_name: mongo_nest_test
-    ports:
-      - '27021:27017'
-    environment:
-      MONGO_INITDB_DATABASE: nest_test
-    volumes:
-      - data-volume:/data/db
+      - dbdata:/data/db
+    restart: always
+    networks:
+      - app-network
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
 volumes:
-  data-volume:
+  dbdata:

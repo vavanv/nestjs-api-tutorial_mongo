@@ -1,2 +1,2 @@
-export * from './auth.payload';
+export * from './auth.signup.payload';
 export * from './auth.signin.payload';

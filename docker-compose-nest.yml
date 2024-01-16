@@ -18,14 +18,5 @@ services:
       MONGO_INITDB_DATABASE: nest
     volumes:
       - data-volume:/data/db
-  mongo_nest_test:
-    image: mongo:latest
-    container_name: mongo_nest_test
-    ports:
-      - '27021:27017'
-    environment:
-      MONGO_INITDB_DATABASE: nest_test
-    volumes:
-      - data-volume:/data/db
 volumes:
   data-volume:

@@ -5,7 +5,7 @@ import * as pactum from 'pactum';
 // import { PrismaService } from '../src/prisma/prisma.service';
 // import { MongooseModule } from '@nestjs/mongoose';
 import { AppModule } from '../src/modules/app/app.module';
-import { AuthPayload } from 'src/modules/auth/payload';
+import { AuthSignupPayload, AuthSigninPayload } from 'src/modules/auth/payload';
 import { EditUserPayload } from 'src/modules/user/payload';
 import {
   CreateBookmarkPayload,
@@ -39,7 +39,7 @@ describe('App e2e', () => {
   });
 
   describe('Auth', () => {
-    const payload: AuthPayload = {
+    const payload: AuthSignupPayload = {
       email: 'vladimir.vv@gmail.com',
       password: '123',
       firstName: 'V',
@@ -79,6 +79,10 @@ describe('App e2e', () => {
     });
 
     describe('Signin', () => {
+      const payload: AuthSigninPayload = {
+        email: 'vladimir.vv@gmail.com',
+        password: '123',
+      };
       it('Should Throw if email is not valid', () => {
         return pactum
           .spec()
@@ -126,7 +130,7 @@ describe('App e2e', () => {
     });
     describe('Edit User', () => {
       it('Should Edit User', () => {
-        const dto: EditUserPayload = {
+        const payload: EditUserPayload = {
           email: 'vvv@gmail.com',
           firstName: 'Vlad',
         };
@@ -136,10 +140,10 @@ describe('App e2e', () => {
           .withHeaders({
             Authorization: 'Bearer $S{access_token}',
           })
-          .withBody(dto)
+          .withBody(payload)
           .expectStatus(200)
-          .expectBodyContains(dto.firstName)
-          .expectBodyContains(dto.email);
+          .expectBodyContains(payload.firstName)
+          .expectBodyContains(payload.email);
       });
     });
   });

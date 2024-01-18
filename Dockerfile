@@ -1,7 +1,7 @@
 FROM node:latest
 
 WORKDIR /app
-EXPOSE 3033
+EXPOSE 3333
 
 COPY package.json yarn.lock ./
 RUN touch .env

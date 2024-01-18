@@ -9,6 +9,10 @@ export class AppService {
     @Inject('winston') private readonly logger: Logger,
   ) {}
 
+  getHello(): string {
+    return 'App is running';
+  }
+
   root(): string {
     const appURL = this.configService.get('APP_URL');
     this.logger.info('Logging the APP_URL -> ' + appURL);

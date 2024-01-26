@@ -2,9 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
 export class EditBookmarkPayload {
-  @ApiProperty({
-    required: true,
-  })
+  @ApiProperty()
   @IsString()
   @IsOptional()
   title?: string;
@@ -14,9 +12,7 @@ export class EditBookmarkPayload {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({
-    required: true,
-  })
+  @ApiProperty()
   @IsString()
   @IsOptional()
   link?: string;

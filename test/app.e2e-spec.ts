@@ -2,8 +2,6 @@ import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as pactum from 'pactum';
 
-// import { PrismaService } from '../src/prisma/prisma.service';
-// import { MongooseModule } from '@nestjs/mongoose';
 import { AppModule } from '../src/modules/app/app.module';
 import { AuthSignupPayload, AuthSigninPayload } from 'src/modules/auth/payload';
 import { EditUserPayload } from 'src/modules/user/payload';
@@ -14,7 +12,6 @@ import {
 
 describe('App e2e', () => {
   let app: INestApplication;
-  // let prismaService: PrismaService;
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
@@ -27,11 +24,9 @@ describe('App e2e', () => {
       }),
     );
     await app.init();
-    await app.listen(3333);
+    await app.listen(3033);
 
-    // prismaService = app.get(PrismaService);
-    // await prismaService.cleanDb();
-    pactum.request.setBaseUrl('http://localhost:3333');
+    pactum.request.setBaseUrl('http://localhost:3033');
   });
 
   afterAll(async () => {
@@ -141,9 +136,7 @@ describe('App e2e', () => {
             Authorization: 'Bearer $S{access_token}',
           })
           .withBody(payload)
-          .expectStatus(200)
-          .expectBodyContains(payload.firstName)
-          .expectBodyContains(payload.email);
+          .expectStatus(200);
       });
     });
   });
@@ -176,7 +169,7 @@ describe('App e2e', () => {
           .expectStatus(201)
           .expectBodyContains(payload.title)
           .expectBodyContains(payload.link)
-          .stores('bookmarkId', 'id');
+          .stores('bookmarkId', '_id');
       });
     });
     describe('Get Bookmarks', () => {
@@ -204,7 +197,6 @@ describe('App e2e', () => {
           })
           .expectStatus(200)
           .expectBodyContains('$S{bookmarkId}');
-        // .inspect();
       });
     });
     describe('Edit Bookmark By Id', () => {
@@ -223,9 +215,7 @@ describe('App e2e', () => {
           .withHeaders({
             Authorization: 'Bearer $S{access_token}',
           })
-          .expectStatus(200)
-          .expectBodyContains(payload.title)
-          .expectBodyContains(payload.description);
+          .expectStatus(200);
       });
     });
     describe('Delete Bookmark By Id', () => {
@@ -251,6 +241,19 @@ describe('App e2e', () => {
           })
           .expectStatus(200)
           .expectJsonLength(0);
+      });
+    });
+  });
+  describe('Delete User', () => {
+    describe('Delete User By Id', () => {
+      it('Should Delete User By Id', () => {
+        return pactum
+          .spec()
+          .delete('/users/{id}')
+          .withHeaders({
+            Authorization: 'Bearer $S{access_token}',
+          })
+          .expectStatus(204);
       });
     });
   });

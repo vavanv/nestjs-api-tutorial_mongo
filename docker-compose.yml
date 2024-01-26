@@ -25,6 +25,16 @@ services:
     restart: always
     networks:
       - app-network
+  test_nest_database:
+    image: mongo:latest
+    container_name: test_nest_database
+    ports:
+      - 27047:27017
+    volumes:
+      - dbdata:/test_data/test_db
+    restart: always
+    networks:
+      - app-network
 networks:
   app-network:
     name: app-network

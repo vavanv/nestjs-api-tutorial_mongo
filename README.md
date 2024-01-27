@@ -188,7 +188,7 @@ $ docker-compose -f docker-compose.yml down
 
 # for creating
 
-$ docker-compose -f docker-compose.yml up
+$ docker-compose -f docker-compose.yml up -d
 ```
 
 ### For docker compose V2 (docker compose)
@@ -200,7 +200,7 @@ $ docker compose -f docker-compose.yml down
 
 # for creating
 
-$ docker compose -f docker-compose.yml up
+$ docker compose -f docker-compose.yml up -d
 ```
 
 ---

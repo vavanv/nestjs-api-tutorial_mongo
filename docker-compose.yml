@@ -2,7 +2,7 @@ version: '3.8'
 services:
   nest_service:
     build: .
-    container_name: nest_service
+    container_name: app_service
     ports:
       - 3001:3001
     networks:
@@ -12,12 +12,12 @@ services:
       - .env/:/app/.env
     restart: always
     depends_on:
-      - nest_database
+      - app_database
     links:
-      - nest_database
+      - app_database
   nest_database:
     image: mongo:latest
-    container_name: nest_database
+    container_name: app_database
     ports:
       - 27037:27017
     volumes:
@@ -27,7 +27,7 @@ services:
       - app-network
   test_nest_database:
     image: mongo:latest
-    container_name: test_nest_database
+    container_name: app_test_database
     ports:
       - 27047:27017
     volumes:

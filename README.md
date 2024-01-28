@@ -203,6 +203,10 @@ $ docker compose -f docker-compose.yml down
 $ docker compose -f docker-compose.yml up -d
 ```
 
+### Docker command
+
+https://www.baeldung.com/ops/docker-container-states
+
 ---
 
 ### 📝 Open API

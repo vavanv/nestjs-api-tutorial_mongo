@@ -39,6 +39,5 @@ networks:
   app-network:
     name: app-network
     driver: bridge
-    # external: true
 volumes:
   dbdata:

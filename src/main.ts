@@ -38,6 +38,11 @@ async function bootstrap() {
   //   max: 100,
   //   timeWindow: 60000,
   // });
-  await app.listen(3001);
+  // await app.listen(3001);
+  await app.listen(3001, () => {
+    console.log(`🚀 Application running at port 3001`);
+    const db_url = process.env.DATABASE_URL;
+    console.log('Connecting to mongo DB -> ' + db_url);
+  });
 }
 bootstrap();

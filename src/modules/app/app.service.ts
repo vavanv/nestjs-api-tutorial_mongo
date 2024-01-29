@@ -14,8 +14,8 @@ export class AppService {
   }
 
   root(): string {
-    const appURL = this.configService.get('APP_URL');
-    this.logger.info('Logging the APP_URL -> ' + appURL);
-    return appURL;
+    const db = this.configService.get('DATABASE_URL');
+    this.logger.info('Connecting to mongo DB -> ' + db);
+    return db;
   }
 }

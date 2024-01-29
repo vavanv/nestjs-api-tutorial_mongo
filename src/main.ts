@@ -15,6 +15,7 @@ import {
 } from './constants';
 
 async function bootstrap() {
+  console.log('Connecting to mongo DB -> ' + process.env.DATABASE_URL);
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({ logger: true }),
@@ -41,8 +42,6 @@ async function bootstrap() {
   // await app.listen(3001);
   await app.listen(3001, () => {
     console.log(`🚀 Application running at port 3001`);
-    const db_url = process.env.DATABASE_URL;
-    console.log('Connecting to mongo DB -> ' + db_url);
   });
 }
 bootstrap();

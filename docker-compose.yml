@@ -1,10 +1,13 @@
 version: '3.8'
 services:
-  nest_service:
-    build: .
+  dev:
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
     container_name: app_service
     ports:
-      - 3001:3001
+      - 3033:3033
     networks:
       - app-network
     volumes:
@@ -13,28 +16,26 @@ services:
     restart: always
     depends_on:
       - app_database
-    links:
-      - app_database
   app_database:
     image: mongo:latest
     container_name: app_database
     ports:
-      - 27037:27017
+      - 27027:27017
     volumes:
       - dbdata:/data/db
     restart: always
     networks:
       - app-network
-  app_test_database:
-    image: mongo:latest
-    container_name: app_test_database
-    ports:
-      - 27047:27017
-    volumes:
-      - dbdata:/test_data/test_db
-    restart: always
-    networks:
-      - app-network
+  # app_test_database:
+  #   image: mongo:latest
+  #   container_name: app_test_database
+  #   ports:
+  #     - 27047:27017
+  #   volumes:
+  #     - dbdata:/test_data/test_db
+  #   restart: always
+  #   networks:
+  #     - app-network
 networks:
   app-network:
     name: app-network

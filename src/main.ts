@@ -40,8 +40,8 @@ async function bootstrap() {
   //   timeWindow: 60000,
   // });
   // await app.listen(3001);
-  await app.listen(3001, () => {
-    console.log(`🚀 Application running at port 3001`);
+  await app.listen(3033, () => {
+    console.log(`🚀 Application running at port 3033`);
   });
 }
 bootstrap();

@@ -1,43 +1,11 @@
-# FROM node:latest
-# WORKDIR /app
-# EXPOSE 3001
+FROM node:20.10.0 AS development
 
-# COPY package.json yarn.lock ./
-# RUN touch .env
-
-# RUN set -x && yarn
-
-# COPY . .
-
-# CMD [ "yarn", "start:prod" ]
-
-FROM node:latest AS development
-
+#  Navigate to the container working directory
 WORKDIR /usr/src/app
-
+#  Copy package.json
 COPY package*.json ./
 
 RUN yarn -g rimraf
-
-RUN yarn --dev
-
+RUN yarn
 COPY . .
-
 RUN yarn build
-
-FROM node:latest as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
-COPY package.json ./
-
-RUN yarn --prod
-
-COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/main"]

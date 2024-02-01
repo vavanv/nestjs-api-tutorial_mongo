@@ -1,44 +1,38 @@
 version: '3.8'
 services:
-  dev:
+  app_dev:
+    container_name: app_dev
+    image: app-dev:1.0.0
     build:
       context: .
       target: development
       dockerfile: ./Dockerfile
-    container_name: app_service
+    command: node dist/main
     ports:
       - 3033:3033
+      - 9229:9229
     networks:
       - app-network
     volumes:
-      - ./src/:/app/src/
-      - .env/:/app/.env
-    restart: always
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
     depends_on:
-      - app_database
-  app_database:
+      - app_mongodb
+  app_mongodb:
     image: mongo:latest
-    container_name: app_database
+    container_name: app_mongodb
+    networks:
+      - app-network
     ports:
       - 27027:27017
     volumes:
-      - dbdata:/data/db
-    restart: always
-    networks:
-      - app-network
-  # app_test_database:
-  #   image: mongo:latest
-  #   container_name: app_test_database
-  #   ports:
-  #     - 27047:27017
-  #   volumes:
-  #     - dbdata:/test_data/test_db
-  #   restart: always
-  #   networks:
-  #     - app-network
+      - app_dbdata:/data/db
+    restart: unless-stopped
+
+volumes:
+  app_dbdata:
+
 networks:
   app-network:
-    name: app-network
     driver: bridge
-volumes:
-  dbdata:

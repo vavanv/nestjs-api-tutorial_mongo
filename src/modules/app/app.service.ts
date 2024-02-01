@@ -15,7 +15,6 @@ export class AppService {
 
   root(): string {
     const db = this.configService.get('DATABASE_URL');
-    this.logger.info('Connecting to mongo DB -> ' + db);
     return db;
   }
 }

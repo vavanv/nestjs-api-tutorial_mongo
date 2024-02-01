@@ -39,9 +39,9 @@ async function bootstrap() {
   //   max: 100,
   //   timeWindow: 60000,
   // });
-  // await app.listen(3001);
-  await app.listen(3033, () => {
-    console.log(`🚀 Application running at port 3033`);
+  // await app.listen(3033);
+  await app.listen(process.env.APP_PORT, () => {
+    console.log(`🚀 Application running at port ${process.env.APP_PORT}`);
   });
 }
 bootstrap();

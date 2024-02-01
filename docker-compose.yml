@@ -10,7 +10,7 @@ services:
     command: node dist/main
     ports:
       - 3033:3033
-      - 9229:9229
+      - 9233:9233
     networks:
       - app-network
     volumes:

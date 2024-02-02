@@ -7,7 +7,7 @@ COPY package*.json ./
 
 RUN yarn -g rimraf
 
-RUN yarn
+RUN yarn add <yourPackage> --network-timeout 100000
 
 COPY . .
 RUN yarn build

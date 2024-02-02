@@ -6,9 +6,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN yarn -g rimraf
-# RUN npm install glob rimraf --legacy-peer-deps
-# RUN yarn
-RUN npm install --legacy-peer-deps
+
+RUN yarn
+
 COPY . .
-# RUN yarn build
-RUN npm run build
+RUN yarn build

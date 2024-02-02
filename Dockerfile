@@ -8,7 +8,7 @@ COPY package*.json ./
 # RUN yarn -g rimraf
 RUN npm install glob rimraf
 # RUN yarn
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY . .
 # RUN yarn build
 RUN npm run build

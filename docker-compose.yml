@@ -9,7 +9,7 @@ services:
       dockerfile: ./Dockerfile
     command: node dist/main
     ports:
-      - 3033:3033
+      - 3033:3000
       - 9233:9233
     networks:
       - app-network

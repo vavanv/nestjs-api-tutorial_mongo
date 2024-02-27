@@ -10,15 +10,15 @@ services:
     command: node dist/main
     ports:
       - 3033:3000
-      - 9233:9233
     networks:
       - app-network
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    restart: unless-stopped
+    restart: always
     depends_on:
       - app_mongodb
+
   app_mongodb:
     image: mongo:latest
     container_name: app_mongodb
@@ -28,7 +28,7 @@ services:
       - 27027:27017
     volumes:
       - app_dbdata:/data/db
-    restart: unless-stopped
+    restart: always
 
 volumes:
   app_dbdata:
